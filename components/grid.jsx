@@ -3,35 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import dataLoader from '../browser/dataLoader';
 
-const mapStateToProps = state => ({ repos: state });
+const mapStateToProps = ({ repos, isLoading }) => {
+  return { isLoading, repos };
+};
 
-@dataLoader('fetchPopularRepos')
+@dataLoader(['fetchPopularRepos'])
 class Grid extends Component {
-  constructor(props) {
-    super(props);
-    // let repos;
-    // if (__isBrowser__) {
-    //   repos = window.__INITIAL_DATA__;
-    //   delete window.__INITIAL_DATA__;
-    // } else {
-    //   repos = this.props.staticContext.data;
-    // }
-    //TODO: take this out as ths is going to be moved to central store
-    this.state = {
-      repos: props.repos,
-      isLoading: !props.repos
-    };
-  }
-
   static propTypes = {
     repos: PropTypes.object
   };
-
-  componentDidMount() {
-    if (!this.state.repos) {
-      this.fetchRepos(this.props.match.params.id);
-    }
-  }
 
   componentDidUpdate(prevProps) {
     const language = this.props.match.params.id;
@@ -48,9 +28,9 @@ class Grid extends Component {
   };
 
   render() {
-    const { isLoading, repos } = this.state;
+    const { isLoading, repos } = this.props;
 
-    if (isLoading === true) {
+    if (isLoading === true || !repos.map) {
       return <p>LOADING</p>;
     }
 

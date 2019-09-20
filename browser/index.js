@@ -5,7 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import createStore from '../shared/store';
 
-const store = createStore(window.__INITIAL_DATA__);
+const initialState = document.body.getAttribute('data-props');
+const store = createStore(praseInitialState(initialState));
 hydrate(
   <Provider store={store}>
     <BrowserRouter>
@@ -15,8 +16,14 @@ hydrate(
   document.getElementById('root')
 );
 
-console.log('__isBrowser__...........', __isBrowser__);
-
 if (__isBrowser__) {
   module.hot.accept();
 }
+
+const praseInitialState = rawData => {
+  try {
+    return JSON.parse(initialState);
+  } catch (ex) {
+    console.error('error parsing inital state', ex);
+  }
+};

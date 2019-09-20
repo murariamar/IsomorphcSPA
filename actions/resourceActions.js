@@ -7,14 +7,16 @@ import {
 } from './actions';
 
 const resourceEndpoint = '/resource';
-const buildFetchUrl = resources =>
-  url.format({ path: resourceEndpoint, query: buildQueryString(resources) });
+const buildFetchUrl = (resources, args) =>
+  url.format({
+    pathname: resourceEndpoint,
+    query: buildQueryString(resources, args)
+  });
 
-const buildQueryString = resources =>
-  resources.reduce((acc, resource) => {
-    acc[resource] = resource;
-    return acc;
-  }, {});
+const buildQueryString = (resources, args) => ({
+  ...args,
+  resource: resources.join(',')
+});
 
 const beginFetch = () => ({ type: BEGIN_FETCH_RESOURCES });
 const dataReceived = data => ({ type: RESOURCE_RECEIVED, data });
@@ -24,13 +26,14 @@ const fetchData = endpoint =>
     method: 'GET',
     mode: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
     }
   });
 
-export const fetchResource = resource => {
+export const fetchResource = (resource, args) => {
   return (dispatch, getState) => {
-    const endpoint = buildFetchUrl(resource);
+    const endpoint = buildFetchUrl(resource, args);
     dispatch(beginFetch());
     fetchData(endpoint)
       .then(res => res.json())

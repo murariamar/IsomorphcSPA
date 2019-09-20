@@ -7,8 +7,6 @@ html
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width initial-scale=1")
     link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
-  body
+  body(data-props=data)
     #root!= markup || 'root'
-    script.
-      window.__INITIAL_DATA__= data
     script(type="text/javascript" src="/bundle.js" defer)

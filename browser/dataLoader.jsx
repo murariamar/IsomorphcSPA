@@ -3,27 +3,34 @@ import { connect } from 'react-redux';
 import { fetchResource } from '../actions/resourceActions';
 
 const mapDispatchToProps = dispatch => ({
-  fetchResource: resource => dispatch(fetchResource(resource))
+  fetchResource: (resource, args) => dispatch(fetchResource(resource, args))
 });
 
-const dataLoader = (WrappedComponent, resource) => {
-  // @connect(
-  //   null,
-  //   mapDispatchToProps
-  // )
-  class Datafetcher extends Component {
-    componentDidMount() {
-      this.props.fetchResource(resource);
+const dataLoader = resource => {
+  return WrappedComponent => {
+    @connect(
+      null,
+      mapDispatchToProps
+    )
+    class Datafetcher extends Component {
+      constructor(props) {
+        super(props);
+      }
+      componentDidMount() {
+        this.props.fetchResource(resource, this.props.match.params);
+      }
+
+      render() {
+        return <WrappedComponent {...this.props} />;
+      }
     }
 
-    render() {
-      return <WrappedComponent {...this.props} />;
-    }
-  }
-  return connect(
-    null,
-    mapDispatchToProps
-  )(Datafetcher);
+    // return connect(
+    //   null,
+    //   mapDispatchToProps
+    // )(Datafetcher);
+    return Datafetcher;
+  };
 };
 
-export default resource => target => dataLoader(target, resource);
+export default dataLoader;

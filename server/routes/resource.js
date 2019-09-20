@@ -12,8 +12,7 @@ router.get('/', async (req, res) => {
 
   if (req.xhr && canFetchRequest) {
     const resourceInfo = resources[resource];
-    const args = getArgs(rest, resourceInfo.args);
-    await getDataAndSetRespnse(res, args);
+    await getDataAndSetRespnse(res, resourceInfo, rest);
   }
   res.status(403);
 });
@@ -22,9 +21,11 @@ const getArgs = (params, args) => {
   return args.map(arg => params[arg]);
 };
 
-const getDataAndSetRespnse = async (res, args) => {
+const getDataAndSetRespnse = async (res, resourceInfo, queryParams) => {
   try {
-    const data = await resourceInfo.fetch.apply(null, args);
+    const { fetch: dataFetch, args: resourceArgs } = resourceInfo;
+    const args = getArgs(queryParams, resourceArgs);
+    const data = await dataFetch.apply(null, args);
     res.set('Content-Type', 'application/json');
     res.status(200).send(data);
   } catch (ex) {

@@ -2,7 +2,7 @@ import fetchPopularRepos from './fetchPopularRepos';
 
 export default {
   fetchPopularRepos: {
-    fecth: fetchPopularRepos,
+    fetch: fetchPopularRepos,
     args: ['language']
   }
 };

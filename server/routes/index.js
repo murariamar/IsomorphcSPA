@@ -2,7 +2,7 @@ import express from 'express';
 import React from 'react';
 import { matchPath } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
-import serialize from 'serialize-javascript';
+import serializeJavascript from 'serialize-javascript';
 import { StaticRouter } from 'react-router-dom';
 import { routes } from '../../shared/routes';
 import App from '../../components/app';
@@ -22,7 +22,7 @@ router.get('*', (req, res) => {
 
   fetchDataPromise.then(data => {
     console.log('data..........', data);
-    const store = createStore(data);
+    const store = createStore({ repos: data, isLoading: false });
     const context = { data };
     const markup = renderToString(
       <Provider store={store}>
@@ -42,7 +42,7 @@ router.get('*', (req, res) => {
     res.render('index', {
       markup,
       title: 'React Redux HMR SSR Starter Kit',
-      data: serialize(store.getState())
+      data: serializeJavascript(store.getState())
     });
   });
 });

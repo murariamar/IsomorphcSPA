@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   target: 'web',
@@ -53,32 +52,3 @@ module.exports = {
     })
   ]
 };
-
-// var serverConfig = {
-//   entry: './server/index.js',
-//   target: 'node',
-//   externals: [nodeExternals()],
-//   output: {
-//     path: __dirname,
-//     filename: 'server.js',
-//     publicPath: '/'
-//   },
-//   module: {
-//     rules: [
-//       {
-//         test: /\.(jsx|js)$/,
-//         use: 'babel-loader',
-//         resolve: {
-//           extensions: ['.js', '.jsx']
-//         }
-//       }
-//     ]
-//   },
-//   plugins: [
-//     new webpack.DefinePlugin({
-//       __isBrowser__: 'false'
-//     })
-//   ]
-// };
-
-// module.exports = { browserConfig };

@@ -9,7 +9,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/popular/:id',
+    path: '/popular/:language',
     component: Grid,
     fetchInitialData: (path = '') => fetchPopularRepos(path.split('/').pop())
   }
