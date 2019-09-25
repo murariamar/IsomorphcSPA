@@ -20,15 +20,17 @@ const dataLoader = resource => {
         this.props.fetchResource(resource, this.props.match.params);
       }
 
+      componentDidUpdate(prevProps) {
+        const language = this.props.match.params.language;
+        if (language !== prevProps.match.params.language) {
+          this.props.fetchResource(resource, this.props.match.params);
+        }
+      }
+
       render() {
         return <WrappedComponent {...this.props} />;
       }
     }
-
-    // return connect(
-    //   null,
-    //   mapDispatchToProps
-    // )(Datafetcher);
     return Datafetcher;
   };
 };

@@ -12,7 +12,7 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case BEGIN_FETCH_RESOURCES:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, repos: undefined };
     case RESOURCE_RECEIVED:
       return { ...state, repos: action.data, isLoading: false };
     case ERROR_FETCHING_RESOURCES:

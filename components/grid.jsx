@@ -13,20 +13,6 @@ class Grid extends Component {
     repos: PropTypes.object
   };
 
-  componentDidUpdate(prevProps) {
-    const language = this.props.match.params.id;
-    if (language !== prevProps.match.params.id) {
-      this.fetchRepos(language);
-    }
-  }
-
-  fetchRepos = lang => {
-    this.setState(() => ({ isLoading: true }));
-    this.props.fetchInitialData(lang).then(repos => {
-      this.setState(() => ({ repos, isLoading: false }));
-    });
-  };
-
   render() {
     const { isLoading, repos } = this.props;
 
@@ -34,7 +20,6 @@ class Grid extends Component {
       return <p>LOADING</p>;
     }
 
-    console.log('repos.............', repos);
     return (
       <ul style={{ display: 'flex', flexWrap: 'wrap' }}>
         {repos.map(({ name, owner, stargazers_count, html_url }) => (
