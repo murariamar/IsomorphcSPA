@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack -w --mode=development --hot",
-    "start": "concurrently --kill-others \"npm run start:server\" \"npm run start:dev\"",
-    "start:dev": "webpack-dev-server",
-    "start:server": "nodemon --exec babel-node --inspect ./server/index.js",
-    "test": "test"
+    "start-dev": "concurrently --kill-others \"npm run start:dev-server\" \"npm run start:client\"",
+    "start:dev-server": "nodemon --exec babel-node --inspect ./server/index.js",
+    "start": "concurrently --kill-others \"npm run start:server\" \"npm run start:client\"",
+    "start:client": "webpack-dev-server",
+    "start:server": "nodemon --exec babel-node ./server/index.js"
   },
   "author": "Amar Murari",
   "license": "ISC",
