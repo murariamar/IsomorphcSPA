@@ -16,7 +16,7 @@ class Grid extends Component {
   render() {
     const { isLoading, repos } = this.props;
 
-    if (isLoading === true || !repos.map) {
+    if (isLoading === true || !repos || !repos.map) {
       return <p>LOADING</p>;
     }
 

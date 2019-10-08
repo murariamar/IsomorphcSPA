@@ -7,11 +7,13 @@ import { StaticRouter } from 'react-router-dom';
 import { routes } from '../../shared/routes';
 import App from '../../components/app';
 import { Provider } from 'react-redux';
+import ignoreFavicon from '../middleware/ignoreFavicon';
 import createStore from '../../shared/store';
 import resource from './resource';
 
 const router = express.Router();
 
+router.use(ignoreFavicon);
 router.use('/resource', resource);
 
 router.get('*', (req, res) => {
