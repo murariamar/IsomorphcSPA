@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchResource } from '../actions/resourceActions';
 
 const mapDispatchToProps = dispatch => ({
-  fetchResource: (resource, args) => dispatch(fetchResource(resource, args))
+  dataFetch: (resource, args) => dispatch(fetchResource(resource, args))
 });
 
 const dataLoader = resource => {
@@ -13,21 +14,36 @@ const dataLoader = resource => {
       mapDispatchToProps
     )
     class Datafetcher extends Component {
-      constructor(props) {
-        super(props);
-      }
       componentDidMount() {
-        this.props.fetchResource(resource, this.props.match.params);
+        const {
+          dataFetch,
+          match: { params }
+        } = this.props;
+        dataFetch(resource, params);
       }
 
       componentDidUpdate(prevProps) {
-        const language = this.props.match.params.language;
+        const {
+          dataFetch,
+          match: { params }
+        } = this.props;
+        const { language } = params;
         if (language !== prevProps.match.params.language) {
-          this.props.fetchResource(resource, this.props.match.params);
+          dataFetch(resource, params);
         }
       }
 
+      static prototypes = {
+        dataFetch: PropTypes.func.isRequired,
+        match: PropTypes.shape({
+          params: PropTypes.shape({
+            language: PropTypes.string.isRequired
+          }).isRequired
+        }).isRequired
+      };
+
       render() {
+        // eslint-disable-next-line react/jsx-props-no-spreading
         return <WrappedComponent {...this.props} />;
       }
     }

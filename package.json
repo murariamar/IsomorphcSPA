@@ -3,13 +3,26 @@
   "version": "1.0.0",
   "description": "Isomorphic single page app using react router",
   "main": "index.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./**/*.{js,jsx}": [
+      "eslint",
+      "pretty-quick — staged",
+      "git add"
+    ]
+  },
   "scripts": {
     "build": "webpack -w --mode=development --hot",
     "start-dev": "concurrently --kill-others \"npm run start:dev-server\" \"npm run start:client\"",
     "start:dev-server": "nodemon --exec babel-node --inspect ./server/index.js",
     "start": "concurrently --kill-others \"npm run start:server\" \"npm run start:client\"",
     "start:client": "webpack-dev-server",
-    "start:server": "nodemon --exec babel-node ./server/index.js"
+    "start:server": "nodemon --exec babel-node ./server/index.js",
+    "lint": "eslint --cache . --ext .js,.jsx"
   },
   "author": "Amar Murari",
   "license": "ISC",
@@ -21,9 +34,20 @@
     "@babel/plugin-syntax-decorators": "^7.2.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "concurrently": "^4.1.1",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
+    "husky": "^3.0.8",
+    "lint-staged": "^9.4.2",
     "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0",
@@ -36,6 +60,7 @@
     "csrf": "^3.1.0",
     "express": "^4.17.1",
     "isomorphic-fetch": "^2.2.1",
+    "prop-types": "^15.7.2",
     "pug": "^2.0.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

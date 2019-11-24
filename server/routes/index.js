@@ -1,12 +1,11 @@
 import express from 'express';
 import React from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import serializeJavascript from 'serialize-javascript';
-import { StaticRouter } from 'react-router-dom';
-import { routes } from '../../shared/routes';
-import App from '../../components/app';
 import { Provider } from 'react-redux';
+import routes from '../../shared/routes';
+import App from '../../components/app';
 import ignoreFavicon from '../middleware/ignoreFavicon';
 import createStore from '../../shared/store';
 import resource from './resource';
@@ -23,7 +22,6 @@ router.get('*', (req, res) => {
     : Promise.resolve();
 
   fetchDataPromise.then(data => {
-    console.log('data..........', data);
     const store = createStore({ repos: data, isLoading: false });
     const context = { data };
     const markup = renderToString(
@@ -46,6 +44,7 @@ router.get('*', (req, res) => {
       title: 'React Redux HMR SSR Starter Kit',
       data: serializeJavascript(store.getState())
     });
+    return null;
   });
 });
 

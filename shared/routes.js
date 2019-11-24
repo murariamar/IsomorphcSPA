@@ -2,7 +2,7 @@ import Home from '../components/home';
 import Grid from '../components/grid';
 import fetchPopularRepos from '../server/resources/fetchPopularRepos';
 
-const routes = [
+export default [
   {
     path: '/',
     exact: true,
@@ -14,5 +14,3 @@ const routes = [
     fetchInitialData: (path = '') => fetchPopularRepos(path.split('/').pop())
   }
 ];
-
-export { routes };

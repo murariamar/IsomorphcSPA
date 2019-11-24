@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,10 +10,6 @@ const mapStateToProps = ({ repos, isLoading }) => {
 
 @dataLoader(['fetchPopularRepos'])
 class Grid extends Component {
-  static propTypes = {
-    repos: PropTypes.object
-  };
-
   render() {
     const { isLoading, repos } = this.props;
 
@@ -37,5 +34,21 @@ class Grid extends Component {
     );
   }
 }
+
+Grid.defaultProps = {
+  repos: []
+};
+
+Grid.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  repos: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      login: PropTypes.string.isRequired
+    }).isRequired,
+    stargazers_count: PropTypes.number.isRequired,
+    html_url: PropTypes.string.isRequired
+  })
+};
 
 export default connect(mapStateToProps)(Grid);

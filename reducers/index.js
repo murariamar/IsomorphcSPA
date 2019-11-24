@@ -17,6 +17,7 @@ export default (state = defaultState, action) => {
       return { ...state, repos: action.data, isLoading: false };
     case ERROR_FETCHING_RESOURCES:
       return { ...state, isLoading: false, error: true };
+    default:
+      return { ...state };
   }
-  return state;
 };

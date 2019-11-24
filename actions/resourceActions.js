@@ -7,16 +7,17 @@ import {
 } from './actions';
 
 const resourceEndpoint = '/resource';
-const buildFetchUrl = (resources, args) =>
-  url.format({
-    pathname: resourceEndpoint,
-    query: buildQueryString(resources, args)
-  });
 
 const buildQueryString = (resources, args) => ({
   ...args,
   resource: resources.join(',')
 });
+
+const buildFetchUrl = (resources, args) =>
+  url.format({
+    pathname: resourceEndpoint,
+    query: buildQueryString(resources, args)
+  });
 
 const beginFetch = () => ({ type: BEGIN_FETCH_RESOURCES });
 const dataReceived = data => ({ type: RESOURCE_RECEIVED, data });
@@ -32,7 +33,7 @@ const fetchData = endpoint =>
   });
 
 export const fetchResource = (resource, args) => {
-  return (dispatch, getState) => {
+  return dispatch => {
     const endpoint = buildFetchUrl(resource, args);
     dispatch(beginFetch());
     fetchData(endpoint)
@@ -41,7 +42,11 @@ export const fetchResource = (resource, args) => {
         dispatch(dataReceived(data));
       })
       .catch(ex => {
-        dispatch({ type: ERROR_FETCHING_RESOURCES });
+        dispatch({ type: ERROR_FETCHING_RESOURCES, ex });
       });
   };
+};
+
+export default {
+  fetchResource
 };
